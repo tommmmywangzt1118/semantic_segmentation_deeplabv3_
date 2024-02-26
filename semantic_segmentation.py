@@ -3,20 +3,20 @@ import numpy as np
 from pixellib.semantic import semantic_segmentation
 import cv2
 
-# 加载预训练的DeepLabv3模型
+# Loading pre-trained DeepLabv3 model
 segment_image = semantic_segmentation()
 segment_image.load_pascalvoc_model("deeplabv3_xception_tf_dim_ordering_tf_kernels.h5")
 
-# 对输入图像进行语义分割
+# Perform semantic segmentation on the input image
 segment_image.segmentAsPascalvoc("test.jpeg", output_image_name="output.jpg")
 
-# 读取输出图像和分割标签
+# Read the output images and labels
 image = cv2.imread('output.jpg')
 labels = cv2.imread('output.jpg', 0)
 
-# 根据标签分割图像
+# Segment the image based on labels
 for label in set(labels.flatten()):
-    if label not in [13, 15]:  # 1 for person, 18 for dog
+    if label not in [13, 15]:  # 13 for person, 15 for horse
         continue
     lowerb = np.array([label])
     upperb = np.array([label])
